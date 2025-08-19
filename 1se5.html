@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPS Topic Practice Test - Chapters 1-5</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1a237e;
+            font-size: 2.8em;
+            margin-bottom: 5px;
+        }
+        
+        h2 {
+            text-align: center;
+            color: #3f51b5;
+            font-size: 1.6em;
+            margin-top: 0;
+            margin-bottom: 40px;
+        }
+        
+        h5.presented-by {
+            text-align: center;
+            color: #78909c;
+            font-size: 0.9em; /* Reduced font size */
+            margin: 0 0 20px 0; /* Centered and positioned at the very top */
+            font-weight: normal;
+        }
+
+        .professional-title {
+            text-align: center;
+            color: #546e7a;
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .timer-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+        
+        #timer {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #d32f2f;
+            display: inline-block;
+        }
+        
+        .question-box {
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .question-box p {
+            font-size: 1.15em;
+            font-weight: 500;
+            color: #1b5e20;
+            margin-bottom: 20px;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .option-label {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #cfd8dc;
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option-label:hover {
+            background-color: #e3f2fd;
+            border-color: #90caf9;
+            transform: translateY(-2px);
+        }
+        
+        .option-label input[type="radio"] {
+            margin-right: 15px;
+            accent-color: #1a237e;
+            transform: scale(1.2);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 40px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #388e3c;
+            transform: translateY(-2px);
+        }
+        
+        .results-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .results-card {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 450px; /* Card size made smaller */
+            animation: fadeInScale 0.5s ease-out;
+            position: relative; /* Added for presented-by */
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .results-card h3 {
+            font-size: 2em;
+            color: #1a237e;
+            margin-top: 0;
+        }
+
+        .results-card .message {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .results-card .student-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        
+        .results-card .professional-name {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1a237e;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .results-card .professional-designation {
+            font-size: 1.2em;
+            color: #78909c;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .results-card .presented-by-card {
+            font-size: 0.9em;
+            color: #78909c;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-weight: normal;
+        }
+
+        .results-card .congratulations {
+            color: #4CAF50;
+        }
+
+        .results-card .sorry {
+            color: #d32f2f;
+        }
+
+        .score-display {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #d32f2f;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #fce4ec;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .grade-display {
+            font-size: 3em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .grade-pass { color: #43a047; }
+        .grade-fail { color: #d32f2f; }
+        .grade-a-plus { color: #1a237e; }
+        .grade-a { color: #3f51b5; }
+        .grade-b { color: #7cb342; }
+        .grade-c { color: #f9a825; }
+
+    </style>
+</head>
+<body>
+
+<h5 class="presented-by">Presented by Bilal Ahmad</h5>
+
+<div class="container">
+    <h2>EPS Topic Practice Test</h2>
+    </h2>Passing Marks 110</h2>
+    <h2 class="professional-title"> New Book1 Chapter 1 to 5</h2> </h3>Presented by 
+    Bilal Ahmad</h3>
+    
+    <div class="timer-container">
+        <div id="timer">20:00</div>
+    </div>
+    
+    <form id="quizForm">
+        <div class="question-box">
+            <p>1. 다음 중 '안녕히 가세요'의 뜻은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q1" value="a"> 잘 지내세요</label>
+                <label class="option-label"><input type="radio" name="q1" value="b"> 만나서 반가워요</label>
+                <label class="option-label"><input type="radio" name="q1" value="c"> 잘 가세요</label>
+                <label class="option-label"><input type="radio" name="q1" value="d"> 고마워요</label>
+            </div>
+        </div>
+        
+        <div class="question-box">
+            <p>2. 다음 중 '고맙습니다'와 같은 의미는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q2" value="a"> 죄송합니다</label>
+                <label class="option-label"><input type="radio" name="q2" value="b"> 미안합니다</label>
+                <label class="option-label"><input type="radio" name="q2" value="c"> 감사합니다</label>
+                <label class="option-label"><input type="radio" name="q2" value="d"> 괜찮습니다</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>3. 빈칸에 들어갈 가장 알맞은 단어는 무엇입니까?<br>가: ( ) 사람입니까?<br>나: 베트남 사람입니다.</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q3" value="a"> 어느 나라</label>
+                <label class="option-label"><input type="radio" name="q3" value="b"> 무슨 요일</label>
+                <label class="option-label"><input type="radio" name="q3" value="c"> 몇 시</label>
+                <label class="option-label"><input type="radio" name="q3" value="d"> 얼마</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>4. 다음 중 '회사원'과 관계없는 단어는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q4" value="a"> 학생</label>
+                <label class="option-label"><input type="radio" name="q4" value="b"> 선생님</label>
+                <label class="option-label"><input type="radio" name="q4" value="c"> 농부</label>
+                <label class="option-label"><input type="radio" name="q4" value="d"> 마트</label>
+            </div>
+        </div>
+        
+        <div class="question-box">
+            <p>5. 빈칸에 들어갈 가장 알맞은 단어는 무엇입니까?<br>가: 이분은 누구예요?<br>나: 우리 ( )입니다.</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q5" value="a"> 지갑</label>
+                <label class="option-label"><input type="radio" name="q5" value="b"> 가족</label>
+                <label class="option-label"><input type="radio" name="q5" value="c"> 책상</label>
+                <label class="option-label"><input type="radio" name="q5" value="d"> 가방</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>6. 다음 중 '냉장고'와 관련이 없는 단어는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q6" value="a"> 부엌</label>
+                <label class="option-label"><input type="radio" name="q6" value="b"> 텔레비전</label>
+                <label class="option-label"><input type="radio" name="q6" value="c"> 침대</label>
+                <label class="option-label"><input type="radio" name="q6" value="d"> 세탁기</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>7. 빈칸에 들어갈 가장 알맞은 단어는 무엇입니까?<br>가: ( ) 있어요?<br>나: 네, 냉장고 있어요.</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q7" value="a"> 누가</label>
+                <label class="option-label"><input type="radio" name="q7" value="b"> 무엇이</label>
+                <label class="option-label"><input type="radio" name="q7" value="c"> 어디에</label>
+                <label class="option-label"><input type="radio" name="q7" value="d"> 언제</label>
+            </div>
+        </div>
+        
+        <div class="question-box">
+            <p>8. 다음 중 문법적으로 틀린 문장은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q8" value="a"> 저는 학생입니다.</label>
+                <label class="option-label"><input type="radio" name="q8" value="b"> 이것은 책이 아니에요.</label>
+                <label class="option-label"><input type="radio" name="q8" value="c"> 회사원이 아닙니다.</label>
+                <label class="option-label"><input type="radio" name="q8" value="d"> 저는 농부을입니다.</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>9. 다음 단어 중 '직업'에 해당하는 것은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q9" value="a"> 집</label>
+                <label class="option-label"><input type="radio" name="q9" value="b"> 컴퓨터</label>
+                <label class="option-label"><input type="radio" name="q9" value="c"> 의사</label>
+                <label class="option-label"><input type="radio" name="q9" value="d"> 우산</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>10. 다음 대화의 빈칸에 들어갈 알맞은 말은 무엇입니까?<br>가: 지금 뭐 해요?<br>나: ( ).</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q10" value="a"> 식당에</label>
+                <label class="option-label"><input type="radio" name="q10" value="b"> 밥을 먹어요</label>
+                <label class="option-label"><input type="radio" name="q10" value="c"> 내일</label>
+                <label class="option-label"><input type="radio" name="q10" value="d"> 한국 사람</label>
+            </div>
+        </div>
+        
+        <div class="question-box">
+            <p>11. 다음 중 '마시다'와 관련된 단어는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q11" value="a"> 밥</label>
+                <label class="option-label"><input type="radio" name="q11" value="b"> 커피</label>
+                <label class="option-label"><input type="radio" name="q11" value="c"> 책</label>
+                <label class="option-label"><input type="radio" name="q11" value="d"> 영화</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>12. 빈칸에 들어갈 알맞은 단어는 무엇입니까?<br>가: ( )에 숙제가 있어요?<br>나: 아니요, 오늘 숙제 없어요.</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q12" value="a"> 누가</label>
+                <label class="option-label"><input type="radio" name="q12" value="b"> 왜</label>
+                <label class="option-label"><input type="radio" name="q12" value="c"> 언제</label>
+                <label class="option-label"><input type="radio" name="q12" value="d"> 무엇을</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>13. 다음 중 '일요일'과 가장 관계 깊은 단어는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q13" value="a"> 평일</label>
+                <label class="option-label"><input type="radio" name="q13" value="b"> 주말</label>
+                <label class="option-label"><input type="radio" name="q13" value="c"> 오전</label>
+                <label class="option-label"><input type="radio" name="q13" value="d"> 지난주</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>14. 다음 중 '읽다'와 관련된 명사는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q14" value="a"> 밥</label>
+                <label class="option-label"><input type="radio" name="q14" value="b"> 음악</label>
+                <label class="option-label"><input type="radio" name="q14" value="c"> 신문</label>
+                <label class="option-label"><input type="radio" name="q14" value="d"> 커피</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>15. 다음 중 '공부하다'의 의미로 가장 알맞은 것은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q15" value="a"> 자다</label>
+                <label class="option-label"><input type="radio" name="q15" value="b"> 배우다</label>
+                <label class="option-label"><input type="radio" name="q15" value="c"> 일하다</label>
+                <label class="option-label"><input type="radio" name="q15" value="d"> 쉬다</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>16. 빈칸에 들어갈 가장 알맞은 단어는 무엇입니까?<br>가: ( )에 가요?<br>나: 회사에 가요.</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q16" value="a"> 무엇</label>
+                <label class="option-label"><input type="radio" name="q16" value="b"> 언제</label>
+                <label class="option-label"><input type="radio" name="q16" value="c"> 어디</label>
+                <label class="option-label"><input type="radio" name="q16" value="d"> 누가</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>17. 다음 중 '이것'이 아닌 것은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q17" value="a"> 이것은 가방입니다.</label>
+                <label class="option-label"><input type="radio" name="q17" value="b"> 이것은 친구입니다.</label>
+                <label class="option-label"><input type="radio" name="q17" value="c"> 이것은 컴퓨터입니다.</label>
+                <label class="option-label"><input type="radio" name="q17" value="d"> 이것은 사과입니다.</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>18. 다음 문법 중 올바른 것은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q18" value="a"> 커피을 마셔요.</label>
+                <label class="option-label"><input type="radio" name="q18" value="b"> 밥을 먹어요.</label>
+                <label class="option-label"><input type="radio" name="q18" value="c"> 학교가 가요.</label>
+                <label class="option-label"><input type="radio" name="q18" value="d"> 숙제은 해요.</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>19. 다음 중 '아니에요'의 올바른 사용법은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q19" value="a"> 저는 한국 사람 아니에요.</label>
+                <label class="option-label"><input type="radio" name="q19" value="b"> 이것은 사과가 아니에요.</label>
+                <label class="option-label"><input type="radio" name="q19" value="c"> 그분은 선생님이 아니에요.</label>
+                <label class="option-label"><input type="radio" name="q19" value="d"> 오늘이 금요일 아니에요.</label>
+            </div>
+        </div>
+        
+        <div class="question-box">
+            <p>20. 빈칸에 들어갈 알맞은 단어는 무엇입니까?<br>가: ( ) 씨는 어느 나라 사람입니까?<br>나: 저는 네팔 사람입니다.</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q20" value="a"> 저는</label>
+                <label class="option-label"><input type="radio" name="q20" value="b"> 무엇</label>
+                <label class="option-label"><input type="radio" name="q20" value="c"> 누구</label>
+                <label class="option-label"><input type="radio" name="q20" value="d"> 몇</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>21. 다음 중 '학교'와 관련이 없는 단어는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q21" value="a"> 학생</label>
+                <label class="option-label"><input type="radio" name="q21" value="b"> 도서관</label>
+                <label class="option-label"><input type="radio" name="q21" value="c"> 경찰관</label>
+                <label class="option-label"><input type="radio" name="q21" value="d"> 선생님</label>
+            </div>
+        </div>
+        
+        <div class="question-box">
+            <p>22. '어부'는 어떤 일을 하는 사람입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q22" value="a"> 물고기를 잡아요</label>
+                <label class="option-label"><input type="radio" name="q22" value="b"> 요리를 해요</label>
+                <label class="option-label"><input type="radio" name="q22" value="c"> 컴퓨터를 만들어요</label>
+                <label class="option-label"><input type="radio" name="q22" value="d"> 건물을 지어요</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>23. 다음 중 '이름'을 묻는 질문은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q23" value="a"> 나이가 어떻게 되세요?</label>
+                <label class="option-label"><input type="radio" name="q23" value="b"> 어디에 사세요?</label>
+                <label class="option-label"><input type="radio" name="q23" value="c"> 이름이 무엇입니까?</label>
+                <label class="option-label"><input type="radio" name="q23" value="d"> 직업이 무엇입니까?</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>24. '옷장'은 보통 어느 방에 있습니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q24" value="a"> 부엌</label>
+                <label class="option-label"><input type="radio" name="q24" value="b"> 침실</label>
+                <label class="option-label"><input type="radio" name="q24" value="c"> 화장실</label>
+                <label class="option-label"><input type="radio" name="q24" value="d"> 거실</label>
+            </div>
+        </div>
+        
+        <div class="question-box">
+            <p>25. 다음 중 '침대'와 관련이 있는 것은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q25" value="a"> 식탁</label>
+                <label class="option-label"><input type="radio" name="q25" value="b"> 이불</label>
+                <label class="option-label"><input type="radio" name="q25" value="c"> 냉장고</label>
+                <label class="option-label"><input type="radio" name="q25" value="d"> 책상</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>26. '앉다'의 반대말은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q26" value="a"> 가다</label>
+                <label class="option-label"><input type="radio" name="q26" value="b"> 서다</label>
+                <label class="option-label"><input type="radio" name="q26" value="c"> 먹다</label>
+                <label class="option-label"><input type="radio" name="q26" value="d"> 보다</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>27. 다음 중 '쇼핑하다'와 관련된 장소는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q27" value="a"> 은행</label>
+                <label class="option-label"><input type="radio" name="q27" value="b"> 우체국</label>
+                <label class="option-label"><input type="radio" name="q27" value="c"> 시장</label>
+                <label class="option-label"><input type="radio" name="q27" value="d"> 학교</label>
+            </div>
+        </div>
+        
+        <div class="question-box">
+            <p>28. 빈칸에 들어갈 알맞은 단어는 무엇입니까?<br>가: ( ) 봐요?<br>나: 영화를 봐요.</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q28" value="a"> 무엇을</label>
+                <label class="option-label"><input type="radio" name="q28" value="b"> 어디서</label>
+                <label class="option-label"><input type="radio" name="q28" value="c"> 누구를</label>
+                <label class="option-label"><input type="radio" name="q28" value="d"> 언제</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>29. 다음 중 '일하다'와 같은 의미는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q29" value="a"> 쉬다</label>
+                <label class="option-label"><input type="radio" name="q29" value="b"> 공부하다</label>
+                <label class="option-label"><input type="radio" name="q29" value="c"> 근무하다</label>
+                <label class="option-label"><input type="radio" name="q29" value="d"> 운동하다</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>30. 다음 단어 중 '직업'이 아닌 것은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q30" value="a"> 요리사</label>
+                <label class="option-label"><input type="radio" name="q30" value="b"> 의사</label>
+                <label class="option-label"><input type="radio" name="q30" value="c"> 여권</label>
+                <label class="option-label"><input type="radio" name="q30" value="d"> 회사원</label>
+            </div>
+        </div>
+        
+        <div class="question-box">
+            <p>31. 다음 중 '아니에요'의 사용이 문법적으로 올바른 것은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q31" value="a"> 이것은 책는 아니에요.</label>
+                <label class="option-label"><input type="radio" name="q31" value="b"> 저는 의사은 아니에요.</label>
+                <label class="option-label"><input type="radio" name="q31" value="c"> 저분은 선생님이 아니에요.</label>
+                <label class="option-label"><input type="radio" name="q31" value="d"> 이것은 휴대폰이 아니에요.</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>32. 다음 중 '집'과 관련 없는 단어는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q32" value="a"> 거실</label>
+                <label class="option-label"><input type="radio" name="q32" value="b"> 부엌</label>
+                <label class="option-label"><input type="radio" name="q32" value="c"> 침실</label>
+                <label class="option-label"><input type="radio" name="q32" value="d"> 공장</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>33. '몇'이라는 단어는 주로 무엇을 물을 때 사용합니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q33" value="a"> 사람</label>
+                <label class="option-label"><input type="radio" name="q33" value="b"> 물건</label>
+                <label class="option-label"><input type="radio" name="q33" value="c"> 시간이나 숫자</label>
+                <label class="option-label"><input type="radio" name="q33" value="d"> 장소</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>34. '지금'은 무엇을 나타내는 단어입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q34" value="a"> 미래</label>
+                <label class="option-label"><input type="radio" name="q34" value="b"> 현재</label>
+                <label class="option-label"><input type="radio" name="q34" value="c"> 과거</label>
+                <label class="option-label"><input type="radio" name="q34" value="d"> 요일</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>35. 다음 중 '밥을 먹다'와 관련된 단어는 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q35" value="a"> 우유</label>
+                <label class="option-label"><input type="radio" name="q35" value="b"> 신문</label>
+                <label class="option-label"><input type="radio" name="q35" value="c"> 빵</label>
+                <label class="option-label"><input type="radio" name="q35" value="d"> 주스</label>
+            </div>
+        </div>
+        
+        <div class="question-box">
+            <p>36. '지갑'은 보통 무엇을 보관하는 데 사용합니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q36" value="a"> 열쇠</label>
+                <label class="option-label"><input type="radio" name="q36" value="b"> 옷</label>
+                <label class="option-label"><input type="radio" name="q36" value="c"> 돈</label>
+                <label class="option-label"><input type="radio" name="q36" value="d"> 책</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>37. 다음 중 '무엇'에 대한 대답으로 가장 적절한 것은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q37" value="a"> 리한</label>
+                <label class="option-label"><input type="radio" name="q37" value="b"> 한국</label>
+                <label class="option-label"><input type="radio" name="q37" value="c"> 커피</label>
+                <label class="option-label"><input type="radio" name="q37" value="d"> 경찰관</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>38. 다음 중 '누구'에 대한 대답으로 가장 적절한 것은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q38" value="a"> 연필</label>
+                <label class="option-label"><input type="radio" name="q38" value="b"> 회사</label>
+                <label class="option-label"><input type="radio" name="q38" value="c"> 가방</label>
+                <label class="option-label"><input type="radio" name="q38" value="d"> 선생님</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>39. 다음 중 '도서관'에서 할 수 있는 일은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q39" value="a"> 요리하다</label>
+                <label class="option-label"><input type="radio" name="q39" value="b"> 쇼핑하다</label>
+                <label class="option-label"><input type="radio" name="q39" value="c"> 책을 읽다</label>
+                <label class="option-label"><input type="radio" name="q39" value="d"> 잠을 자다</label>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <p>40. '화장실'과 관련된 물건은 무엇입니까?</p>
+            <div class="options">
+                <label class="option-label"><input type="radio" name="q40" value="a"> 침대</label>
+                <label class="option-label"><input type="radio" name="q40" value="b"> 컵</label>
+                <label class="option-label"><input type="radio" name="q40" value="c"> 비누</label>
+                <label class="option-label"><input type="radio" name="q40" value="d"> 옷</label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">제출 (Submit)</button>
+    </form>
+    
+    <div class="results-overlay" id="resultsOverlay">
+        <div class="results-card">
+            <h5 class="presented-by-card">Presented by Bilal Ahmad</h5>
+            <h3 id="resultTitle"></h3>
+            <p class="message" id="resultMessage"></p>
+            <p>Total Score / کل نمبر:</p>
+            <div class="score-display"><span id="score"></span><small> / 200</small></div>
+            <p>Grade / گریڈ:</p>
+            <div class="grade-display" id="grade"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const quizDuration = 20 * 60; // 20 minutes for 40 questions
+    let timeLeft = quizDuration;
+    let timerInterval;
+
+    const correctAnswers = {
+        q1: 'c', q2: 'c', q3: 'a', q4: 'd', q5: 'b', 
+        q6: 'c', q7: 'b', q8: 'd', q9: 'c', q10: 'b',
+        q11: 'b', q12: 'c', q13: 'b', q14: 'c', q15: 'b',
+        q16: 'c', q17: 'b', q18: 'b', q19: 'c', q20: 'c',
+        q21: 'c', q22: 'a', q23: 'c', q24: 'b', q25: 'b',
+        q26: 'b', q27: 'c', q28: 'a', q29: 'c', q30: 'c',
+        q31: 'c', q32: 'd', q33: 'c', q34: 'b', q35: 'c',
+        q36: 'c', q37: 'c', q38: 'd', q39: 'c', q40: 'c'
+    };
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('timer').textContent = formattedTime;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                submitQuiz();
+            }
+        }, 1000);
+    }
+    
+    function submitQuiz() {
+        clearInterval(timerInterval);
+        
+        let score = 0;
+        const totalQuestions = Object.keys(correctAnswers).length;
+        
+        for (let i = 1; i <= totalQuestions; i++) {
+            const questionName = `q${i}`;
+            const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+            
+            if (selectedOption && selectedOption.value === correctAnswers[questionName]) {
+                score += 5;
+            }
+        }
+        
+        let grade = '';
+        let gradeClass = '';
+        let resultMessage = '';
+        let resultTitle = '';
+
+        if (score >= 190) {
+            grade = 'A+ (Excellent)';
+            gradeClass = 'grade-a-plus';
+            resultTitle = 'نتیجہ: پاس (Result: Pass)';
+            resultMessage = 'بہترین کارکردگی! مبارک ہو۔';
+        } else if (score >= 170) {
+            grade = 'A (Very Good)';
+            gradeClass = 'grade-a';
+            resultTitle = 'نتیجہ: پاس (Result: Pass)';
+            resultMessage = 'بہت اچھا! آپ نے اچھے نمبر حاصل کیے ہیں۔';
+        } else if (score >= 150) {
+            grade = 'B (Good)';
+            gradeClass = 'grade-b';
+            resultTitle = 'نتیجہ: پاس (Result: Pass)';
+            resultMessage = 'اچھا اسکور۔ اگلے لیول کی تیاری کریں۔';
+        } else if (score >= 130) {
+            grade = 'C (Average)';
+            gradeClass = 'grade-c';
+            resultTitle = 'نتیجہ: پاس (Result: Pass)';
+            resultMessage = 'آپ پاس ہو گئے ہیں! مزید محنت کریں۔';
+        } else if (score >= 110) {
+            grade = 'D (Pass)';
+            gradeClass = 'grade-pass';
+            resultTitle = 'نتیجہ: پاس (Result: Pass)';
+            resultMessage = 'آپ پاس ہیں، مبارک ہو۔ مزید محنت کی ضرورت ہے۔';
+        }
+        else {
+            grade = 'F (Fail)';
+            gradeClass = 'grade-fail';
+            resultTitle = 'نتیجہ: فیل (Result: Fail)';
+            resultMessage = 'افسوس، آپ پاس نہیں ہو سکے۔ ہمت مت ہاریں اور دوبارہ کوشش کریں۔';
+        }
+        
+        document.getElementById('score').textContent = score;
+        const gradeElement = document.getElementById('grade');
+        gradeElement.textContent = grade;
+        gradeElement.className = 'grade-display ' + gradeClass;
+        
+        document.getElementById('resultTitle').textContent = resultTitle;
+        document.getElementById('resultMessage').textContent = resultMessage;
+        
+        document.getElementById('resultsOverlay').style.display = 'flex';
+    }
+
+    document.getElementById('quizForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        submitQuiz();
+    });
+
+    window.onload = startTimer;
+</script>
+
+</body>
+</html>

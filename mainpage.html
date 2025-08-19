@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korean Testing</title>
+    <style>
+        /* CSS starts here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #5d9cec;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #4a8ad7;
+        }
+
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .toggle-button {
+            background-color: #f0ad4e;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .toggle-button:hover {
+            background-color: #ec971f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="/1se5.html">Korean 1</a>
+        <a href="/index.html">Korea2</a>
+        <a href="#contact">Contac</a>
+    </div>
+
+    <div class="content">
+        <h1>Welcome to Korean Testing</h1>
+        <p>This is a simple web page created for testing purposes.</p>
+        <button class="toggle-button" onclick="changeText()">Click Me!</button>
+        <p id="demo">Original Text</p>
+    </div>
+
+    <script>
+        /* JavaScript starts here */
+        function changeText() {
+            var element = document.getElementById("demo");
+            if (element.innerHTML === "Original Text") {
+                element.innerHTML = "Text has been changed!";
+            } else {
+                element.innerHTML = "Original Text";
+            }
+        }
+    </script>
+
+</body>
+</html>
