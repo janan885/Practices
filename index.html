@@ -1,706 +1,85 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPS topic Style test By Bilal Ahmad New Book 1 Chapter 22 to 24</title>
+    <title>Korean Testing</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
-        
+        /* CSS starts here */
         body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
-            line-height: 1.6;
+            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            text-align: center;
-            color: #1a237e;
-            font-size: 2.8em;
-            margin-bottom: 5px;
-        }
-        
-        h2 {
-            text-align: center;
-            color: #3f51b5;
-            font-size: 1.6em;
-            margin-top: 0;
-            margin-bottom: 40px;
-        }
-        
-        .timer-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        #timer {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #d32f2f;
-            display: inline-block;
-        }
-        
-        .question-box {
-            background-color: #e8f5e9;
-            border: 1px solid #c8e6c9;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-        
-        .question-box p {
-            font-size: 1.15em;
-            font-weight: 500;
-            color: #1b5e20;
-            margin-bottom: 20px;
-        }
-        
-        .options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 12px;
-            margin-top: 15px;
-        }
-        
-        .option-label {
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            border: 1px solid #cfd8dc;
-            border-radius: 8px;
-            padding: 15px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .option-label:hover {
-            background-color: #e3f2fd;
-            border-color: #90caf9;
-            transform: translateY(-2px);
-        }
-        
-        .option-label input[type="radio"] {
-            margin-right: 15px;
-            accent-color: #1a237e;
-            transform: scale(1.2);
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
         }
 
-        .submit-btn {
+        .navbar {
+            background-color: #5d9cec;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar a {
+            float: left;
             display: block;
-            width: 100%;
-            padding: 18px;
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #fff;
-            background-color: #4caf50;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 40px;
-        }
-        
-        .submit-btn:hover {
-            background-color: #388e3c;
-            transform: translateY(-2px);
-        }
-        
-        .results-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            display: none;
-        }
-
-        .results-card {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            color: white;
             text-align: center;
-            width: 90%;
-            max-width: 500px;
-            animation: fadeInScale 0.5s ease-out;
-        }
-        
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            padding: 14px 20px;
+            text-decoration: none;
         }
 
-        .results-card h3 {
-            font-size: 2em;
-            color: #1a237e;
-            margin-top: 0;
+        .navbar a:hover {
+            background-color: #4a8ad7;
         }
 
-        .score-display {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #d32f2f;
-            margin: 20px 0;
-            padding: 10px;
-            background-color: #fce4ec;
-            border-radius: 8px;
-            display: inline-block;
+        .content {
+            padding: 20px;
+            text-align: center;
         }
 
-        .grade-display {
-            font-size: 3em;
-            font-weight: bold;
-            color: #388e3c;
+        .toggle-button {
+            background-color: #f0ad4e;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
             margin-top: 10px;
         }
 
-        .grade-pass { color: #43a047; }
-        .grade-fail { color: #d32f2f; }
-        .grade-a { color: #1a237e; }
-        .grade-b { color: #3f51b5; }
-        .grade-c { color: #7cb342; }
-        .grade-d { color: #f9a825; }
-
+        .toggle-button:hover {
+            background-color: #ec971f;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>EPS topic Style test</h1>
-    <h2>By Bilal Ahmad - New Book 1, Chapters 22-24</h2>
-    
-    <div class="timer-container">
-        <div id="timer">20:00</div>
+    <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="/1se5.html">Korean 1</a>
+        <a href="/index.html">Korea2</a>
+        <a href="#contact">Contac</a>
     </div>
-    
-    <form id="quizForm">
-        <div class="question-box">
-            <p>1. 감기에 걸리면 ____(으)ㄹ 먹어요?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q1" value="a"> 소화제</label>
-                <label class="option-label"><input type="radio" name="q1" value="b"> 감기약</label>
-                <label class="option-label"><input type="radio" name="q1" value="c"> 진통제</label>
-                <label class="option-label"><input type="radio" name="q1" value="d"> 해열제</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>2. 돈을 찾을 때 ATM에서 누르는 버튼은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q2" value="a"> 입금</label>
-                <label class="option-label"><input type="radio" name="q2" value="b"> 출금</label>
-                <label class="option-label"><input type="radio" name="q2" value="c"> 송금</label>
-                <label class="option-label"><input type="radio" name="q2" value="d"> 통장 정리</label>
-            </div>
-        </div>
 
-        <div class="question-box">
-            <p>3. 몸이 아플 때 가는 곳은 어디입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q3" value="a"> 병원</label>
-                <label class="option-label"><input type="radio" name="q3" value="b"> 은행</label>
-                <label class="option-label"><input type="radio" name="q3" value="c"> 우체국</label>
-                <label class="option-label"><input type="radio" name="q3" value="d"> 시장</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>4. 콧물이 날 때 쓰는 물건은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q4" value="a"> 연고</label>
-                <label class="option-label"><input type="radio" name="q4" value="b"> 붕대</label>
-                <label class="option-label"><input type="radio" name="q4" value="c"> 마스크</label>
-                <label class="option-label"><input type="radio" name="q4" value="d"> 반창고</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>5. 허리가 아플 때 뼈가 부러진 것은 아닙니다. 무엇을 해야 합니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q5" value="a"> 붕대를 감다</label>
-                <label class="option-label"><input type="radio" name="q5" value="b"> 파스를 붙이다</label>
-                <label class="option-label"><input type="radio" name="q5" value="c"> 연고를 바르다</label>
-                <label class="option-label"><input type="radio" name="q5" value="d"> 찜질을 하다</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>6. 다음 중 돈을 외국으로 보낼 때 쓰는 단어는 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q6" value="a"> 입금</label>
-                <label class="option-label"><input type="radio" name="q6" value="b"> 환전</label>
-                <label class="option-label"><input type="radio" name="q6" value="c"> 송금</label>
-                <label class="option-label"><input type="radio" name="q6" value="d"> 출금</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>7. '환율이 오르다'의 반대말은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q7" value="a"> 환전하다</label>
-                <label class="option-label"><input type="radio" name="q7" value="b"> 환율이 내리다</label>
-                <label class="option-label"><input type="radio" name="q7" value="c"> 환율이 변하다</label>
-                <label class="option-label"><input type="radio" name="q7" value="d"> 송금하다</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>8. 편지를 보낼 때 쓰는 봉투는 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q8" value="a"> 편지 봉투</label>
-                <label class="option-label"><input type="radio" name="q8" value="b"> 우체통</label>
-                <label class="option-label"><input type="radio" name="q8" value="c"> 택배 상자</label>
-                <label class="option-label"><input type="radio" name="q8" value="d"> 소포</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>9. '배가 아프다'를 표현하는 다른 말은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q9" value="a"> 감기에 걸리다</label>
-                <label class="option-label"><input type="radio" name="q9" value="b"> 배탈이 나다</label>
-                <label class="option-label"><input type="radio" name="q9" value="c"> 열이 나다</label>
-                <label class="option-label"><input type="radio" name="q9" value="d"> 콧물이 나다</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>10. 편의점에서 살 수 없는 약은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q10" value="a"> 진통제</label>
-                <label class="option-label"><input type="radio" name="q10" value="b"> 감기약</label>
-                <label class="option-label"><input type="radio" name="q10" value="c"> 소화제</label>
-                <label class="option-label"><input type="radio" name="q10" value="d"> 의사의 처방이 필요한 약</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>11. '통장'을 만드는 데 필요한 것은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q11" value="a"> 돈</label>
-                <label class="option-label"><input type="radio" name="q11" value="b"> 신분증</label>
-                <label class="option-label"><input type="radio" name="q11" value="c"> 우표</label>
-                <label class="option-label"><input type="radio" name="q11" value="d"> 편지</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>12. 이 소포를 외국으로 가장 빨리 보낼 때 쓰는 방법은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q12" value="a"> 일반 우편</label>
-                <label class="option-label"><input type="radio" name="q12" value="b"> 선박 우편</label>
-                <label class="option-label"><input type="radio" name="q12" value="c"> 국제 특급 우편(EMS)</label>
-                <label class="option-label"><input type="radio" name="q12" value="d"> 항공 우편</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>13. '피곤하니까'는 무슨 의미입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q13" value="a"> 피곤하지만</label>
-                <label class="option-label"><input type="radio" name="q13" value="b"> 피곤하면</label>
-                <label class="option-label"><input type="radio" name="q13" value="c"> 피곤하기 때문에</label>
-                <label class="option-label"><input type="radio" name="q13" value="d"> 피곤하고</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>14. 소포를 보낼 때 무게를 재는 곳은 어디입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q14" value="a"> 저울</label>
-                <label class="option-label"><input type="radio" name="q14" value="b"> 우체통</label>
-                <label class="option-label"><input type="radio" name="q14" value="c"> 현금 인출기</label>
-                <label class="option-label"><input type="radio" name="q14" value="d"> 창구</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>15. 감기에 걸려서 열이 날 때 먹는 약은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q15" value="a"> 해열제</label>
-                <label class="option-label"><input type="radio" name="q15" value="b"> 소화제</label>
-                <label class="option-label"><input type="radio" name="q15" value="c"> 진통제</label>
-                <label class="option-label"><input type="radio" name="q15" value="d"> 지사제</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>16. 병원에서 "어떻게 오셨어요?"라고 물을 때, 몸이 아프면 어떻게 대답해야 합니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q16" value="a"> 배가 아파서 왔어요.</label>
-                <label class="option-label"><input type="radio" name="q16" value="b"> 돈을 찾으러 왔어요.</label>
-                <label class="option-label"><input type="radio" name="q16" value="c"> 택배를 보내러 왔어요.</label>
-                <label class="option-label"><input type="radio" name="q16" value="d"> 친구를 만나러 왔어요.</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>17. 아픈 부위에 바르는 약은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q17" value="a"> 연고</label>
-                <label class="option-label"><input type="radio" name="q17" value="b"> 붕대</label>
-                <label class="option-label"><input type="radio" name="q17" value="c"> 반창고</label>
-                <label class="option-label"><input type="radio" name="q17" value="d"> 파스</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>18. 돈을 계좌에 넣을 때 쓰는 말은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q18" value="a"> 출금</label>
-                <label class="option-label"><input type="radio" name="q18" value="b"> 송금</label>
-                <label class="option-label"><input type="radio" name="q18" value="c"> 입금</label>
-                <label class="option-label"><input type="radio" name="q18" value="d"> 계좌 이체</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>19. 비가 오니까 ____________________.</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q19" value="a"> 우산을 가져가세요.</label>
-                <label class="option-label"><input type="radio" name="q19" value="b"> 창문을 닫으세요.</label>
-                <label class="option-label"><input type="radio" name="q19" value="c"> 옷을 입으세요.</label>
-                <label class="option-label"><input type="radio" name="q19" value="d"> 에어컨을 켜세요.</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>20. 은행에서 돈을 다른 계좌로 보낼 때 사용하는 말은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q20" value="a"> 입금</label>
-                <label class="option-label"><input type="radio" name="q20" value="b"> 출금</label>
-                <label class="option-label"><input type="radio" name="q20" value="c"> 계좌 이체</label>
-                <label class="option-label"><input type="radio" name="q20" value="d"> 통장 정리</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>21. '배탈이 나다'와 비슷한 증상은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q21" value="a"> 설사</label>
-                <label class="option-label"><input type="radio" name="q21" value="b"> 기침</label>
-                <label class="option-label"><input type="radio" name="q21" value="c"> 콧물</label>
-                <label class="option-label"><input type="radio" name="q21" value="d"> 열</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>22. 돈을 환전할 때 필요한 것은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q22" value="a"> 돈</label>
-                <label class="option-label"><input type="radio" name="q22" value="b"> 우표</label>
-                <label class="option-label"><input type="radio" name="q22" value="c"> 신분증</label>
-                <label class="option-label"><input type="radio" name="q22" value="d"> 편지</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>23. '몸살에 걸리다'는 무슨 의미입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q23" value="a"> 배가 아프다</label>
-                <label class="option-label"><input type="radio" name="q23" value="b"> 몸이 아프다</label>
-                <label class="option-label"><input type="radio" name="q23" value="c"> 머리가 아프다</label>
-                <label class="option-label"><input type="radio" name="q23" value="d"> 목이 아프다</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>24. '우체국'에서 할 수 있는 일은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q24" value="a"> 돈을 찾다</label>
-                <label class="option-label"><input type="radio" name="q24" value="b"> 편지를 보내다</label>
-                <label class="option-label"><input type="radio" name="q24" value="c"> 통장을 만들다</label>
-                <label class="option-label"><input type="radio" name="q24" value="d"> 환전하다</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>25. '약국'에서 할 수 있는 일은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q25" value="a"> 돈을 찾다</label>
-                <label class="option-label"><input type="radio" name="q25" value="b"> 약을 사다</label>
-                <label class="option-label"><input type="radio" name="q25" value="c"> 택배를 보내다</label>
-                <label class="option-label"><input type="radio" name="q25" value="d"> 환전하다</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>26. '선박 우편'은 어떻게 물건을 보냅니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q26" value="a"> 비행기</label>
-                <label class="option-label"><input type="radio" name="q26" value="b"> 기차</label>
-                <label class="option-label"><input type="radio" name="q26" value="c"> 배</label>
-                <label class="option-label"><input type="radio" name="q26" value="d"> 자동차</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>27. '약국'과 '병원'의 차이점은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q27" value="a"> 약국은 약을 팔고, 병원은 진료를 합니다.</label>
-                <label class="option-label"><input type="radio" name="q27" value="b"> 약국은 진료를 하고, 병원은 약을 팝니다.</label>
-                <label class="option-label"><input type="radio" name="q27" value="c"> 둘 다 진료를 합니다.</label>
-                <label class="option-label"><input type="radio" name="q27" value="d"> 둘 다 약을 팝니다.</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>28. 열이 나서 병원에 갔습니다. 의사가 "무엇을 먹어야 합니까?"라고 묻습니다. 어떻게 대답해야 합니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q28" value="a"> 소화제</label>
-                <label class="option-label"><input type="radio" name="q28" value="b"> 해열제</label>
-                <label class="option-label"><input type="radio" name="q28" value="c"> 감기약</label>
-                <label class="option-label"><input type="radio" name="q28" value="d"> 지사제</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>29. 감기에 걸려서 목이 아플 때, 어떤 약을 먹어야 합니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q29" value="a"> 감기약</label>
-                <label class="option-label"><input type="radio" name="q29" value="b"> 진통제</label>
-                <label class="option-label"><input type="radio" name="q29" value="c"> 소화제</label>
-                <label class="option-label"><input type="radio" name="q29" value="d"> 해열제</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>30. 배탈이 났을 때 먹는 약은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q30" value="a"> 지사제</label>
-                <label class="option-label"><input type="radio" name="q30" value="b"> 감기약</label>
-                <label class="option-label"><input type="radio" name="q30" value="c"> 해열제</label>
-                <label class="option-label"><input type="radio" name="q30" value="d"> 진통제</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>31. 돈을 바꾸는 것을 '____'라고 합니다.</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q31" value="a"> 환전</label>
-                <label class="option-label"><input type="radio" name="q31" value="b"> 송금</label>
-                <label class="option-label"><input type="radio" name="q31" value="c"> 입금</label>
-                <label class="option-label"><input type="radio" name="q31" value="d"> 출금</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>32. 몸살에 걸렸을 때 주로 나타나는 증상은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q32" value="a"> 열, 기침, 콧물</label>
-                <label class="option-label"><input type="radio" name="q32" value="b"> 배탈, 설사</label>
-                <label class="option-label"><input type="radio" name="q32" value="c"> 상처, 통증</label>
-                <label class="option-label"><input type="radio" name="q32" value="d"> 뼈가 부러짐</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>33. '계좌를 만들다'는 무슨 의미입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q33" value="a"> 돈을 넣다</label>
-                <label class="option-label"><input type="radio" name="q33" value="b"> 통장을 만들다</label>
-                <label class="option-label"><input type="radio" name="q33" value="c"> 돈을 찾다</label>
-                <label class="option-label"><input type="radio" name="q33" value="d"> 돈을 보내다</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>34. 친구에게 편지를 보내려면 무엇이 필요합니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q34" value="a"> 편지 봉투, 우표</label>
-                <label class="option-label"><input type="radio" name="q34" value="b"> 통장, 신분증</label>
-                <label class="option-label"><input type="radio" name="q34" value="c"> 현금, 카드</label>
-                <label class="option-label"><input type="radio" name="q34" value="d"> 약, 붕대</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>35. 소포를 보낼 때 무엇으로 포장해야 합니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q35" value="a"> 소포 상자</label>
-                <label class="option-label"><input type="radio" name="q35" value="b"> 봉투</label>
-                <label class="option-label"><input type="radio" name="q35" value="c"> 신문지</label>
-                <label class="option-label"><input type="radio" name="q35" value="d"> 비닐</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>36. '지사제'는 어떤 증상에 사용하는 약입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q36" value="a"> 설사</label>
-                <label class="option-label"><input type="radio" name="q36" value="b"> 기침</label>
-                <label class="option-label"><input type="radio" name="q36" value="c"> 열</label>
-                <label class="option-label"><input type="radio" name="q36" value="d"> 통증</label>
-            </div>
-        </div>
-        
-        <div class="question-box">
-            <p>37. '진통제'는 어떤 증상에 사용하는 약입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q37" value="a"> 설사</label>
-                <label class="option-label"><input type="radio" name="q37" value="b"> 기침</label>
-                <label class="option-label"><input type="radio" name="q37" value="c"> 통증</label>
-                <label class="option-label"><input type="radio" name="q37" value="d"> 열</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>38. '반창고'는 어떤 상처에 사용합니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q38" value="a"> 큰 상처</label>
-                <label class="option-label"><input type="radio" name="q38" value="b"> 부러진 뼈</label>
-                <label class="option-label"><input type="radio" name="q38" value="c"> 작은 상처</label>
-                <label class="option-label"><input type="radio" name="q38" value="d"> 염증</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>39. 병원에서 의사에게 진료를 받고 약을 사러 가는 곳은 어디입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q39" value="a"> 약국</label>
-                <label class="option-label"><input type="radio" name="q39" value="b"> 은행</label>
-                <label class="option-label"><input type="radio" name="q39" value="c"> 우체국</label>
-                <label class="option-label"><input type="radio" name="q39" value="d"> 편의점</label>
-            </div>
-        </div>
-
-        <div class="question-box">
-            <p>40. '국제 특급 우편(EMS)'을 보내면 좋은 점은 무엇입니까?</p>
-            <div class="options">
-                <label class="option-label"><input type="radio" name="q40" value="a"> 가격이 저렴하다</label>
-                <label class="option-label"><input type="radio" name="q40" value="b"> 빨리 도착한다</label>
-                <label class="option-label"><input type="radio" name="q40" value="c"> 무게가 가볍다</label>
-                <label class="option-label"><input type="radio" name="q40" value="d"> 포장이 필요 없다</label>
-            </div>
-        </div>
-
-        <button type="submit" class="submit-btn">제출 (Submit)</button>
-    </form>
-    
-    <div class="results-overlay" id="resultsOverlay">
-        <div class="results-card">
-            <h3>Test Result / ٹیسٹ کا نتیجہ</h3>
-            <p>Total Score / کل نمبر:</p>
-            <div class="score-display"><span id="score"></span><small> / 200</small></div>
-            <p>Grade / درجہ:</p>
-            <div class="grade-display" id="grade"></div>
-        </div>
+    <div class="content">
+        <h1>Welcome to Korean Testing</h1>
+        <p>This is a simple web page created for testing purposes.</p>
+        <button class="toggle-button" onclick="changeText()">Click Me!</button>
+        <p id="demo">Original Text</p>
     </div>
-</div>
 
-<script>
-    const quizDuration = 20 * 60; // 20 minutes in seconds
-    let timeLeft = quizDuration;
-    let timerInterval;
-
-    const correctAnswers = {
-        q1: 'b', q2: 'b', q3: 'a', q4: 'c', q5: 'b', 
-        q6: 'c', q7: 'b', q8: 'a', q9: 'b', q10: 'd',
-        q11: 'b', q12: 'c', q13: 'c', q14: 'a', q15: 'a',
-        q16: 'a', q17: 'a', q18: 'c', q19: 'a', q20: 'c',
-        q21: 'a', q22: 'c', q23: 'b', q24: 'b', q25: 'b',
-        q26: 'c', q27: 'a', q28: 'b', q29: 'a', q30: 'a',
-        q31: 'a', q32: 'a', q33: 'b', q34: 'a', q35: 'a',
-        q36: 'a', q37: 'c', q38: 'c', q39: 'a', q40: 'b'
-    };
-
-    function startTimer() {
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            document.getElementById('timer').textContent = formattedTime;
-
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                submitQuiz();
-            }
-        }, 1000);
-    }
-    
-    function submitQuiz() {
-        clearInterval(timerInterval);
-        
-        let score = 0;
-        const totalQuestions = Object.keys(correctAnswers).length;
-        
-        for (let i = 1; i <= totalQuestions; i++) {
-            const questionName = `q${i}`;
-            const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
-            
-            if (selectedOption && selectedOption.value === correctAnswers[questionName]) {
-                score += 5;
+    <script>
+        /* JavaScript starts here */
+        function changeText() {
+            var element = document.getElementById("demo");
+            if (element.innerHTML === "Original Text") {
+                element.innerHTML = "Text has been changed!";
+            } else {
+                element.innerHTML = "Original Text";
             }
         }
-        
-        let grade = '';
-        let gradeClass = '';
-        if (score >= 190) {
-            grade = 'A+ (Excellent)';
-            gradeClass = 'grade-a';
-        } else if (score >= 170) {
-            grade = 'A (Very Good)';
-            gradeClass = 'grade-a';
-        } else if (score >= 150) {
-            grade = 'B (Good)';
-            gradeClass = 'grade-b';
-        } else if (score >= 130) {
-            grade = 'C (Average)';
-            gradeClass = 'grade-c';
-        } else if (score >= 110) {
-            grade = 'D (Pass)';
-            gradeClass = 'grade-d';
-        } else {
-            grade = 'F (Fail)';
-            gradeClass = 'grade-fail';
-        }
-        
-        document.getElementById('score').textContent = score;
-        const gradeElement = document.getElementById('grade');
-        gradeElement.textContent = grade;
-        gradeElement.className = 'grade-display ' + gradeClass;
-        
-        document.getElementById('resultsOverlay').style.display = 'flex';
-    }
-
-    document.getElementById('quizForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        submitQuiz();
-    });
-
-    window.onload = startTimer;
-</script>
+    </script>
 
 </body>
 </html>
