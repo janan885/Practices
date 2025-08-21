@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ویلڈنگ کا ٹیسٹ - اردو</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --card: #121a2b;
+      --muted: #99a3b3;
+      --text: #e7eefc;
+      --brand: #4f8cff;
+      --ok: #16a34a;
+      --bad: #ef4444;
+      --warn: #f59e0b;
+      --chip: #1f2a44;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 10% -10%, #132241 0%, var(--bg) 50%),
+                  radial-gradient(1000px 500px at 120% 20%, #1a2b54 0%, transparent 50%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      direction: rtl;
+      text-align: right;
+    }
+    .wrap {
+      max-width: 980px; margin: 40px auto; padding: 20px;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
+      background-color: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .presented-by {
+      color: var(--brand);
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 28px; margin: 0 0 8px; }
+    .sub { color: var(--muted); margin-bottom: 20px; }
+    .controls { display: flex; justify-content: space-between; align-items: center; margin: 16px 0 24px; }
+    button {
+      border: 1px solid rgba(255,255,255,0.14);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      color: var(--text);
+      padding: 10px 14px; border-radius: 12px; cursor: pointer; font-weight: 600;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    button.primary {
+      border-color: rgba(79,140,255,0.5);
+      background: linear-gradient(180deg, rgba(79,140,255,0.25), rgba(79,140,255,0.12));
+    }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .q {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 16px; position: relative;
+    }
+    .q h3 { margin: 0 0 10px; font-size: 18px; }
+    .chip {
+      display: inline-block; font-size: 12px; padding: 4px 8px; border-radius: 999px;
+      background: var(--chip); color: #c9d6ff; border: 1px solid rgba(255,255,255,0.08);
+      margin-left: 8px;
+      margin-right: 0;
+    }
+    .options { display: grid; gap: 6px; margin-top: 8px; }
+    label.opt {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    label.opt:hover { border-color: rgba(79,140,255,0.45); }
+    .explain { margin-top: 10px; font-size: 14px; color: var(--muted); display:none; }
+    .correct { outline: 2px solid var(--ok); }
+    .wrong { outline: 2px solid var(--bad); }
+    .score-area {
+      text-align: center;
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 20px;
+      display: none;
+    }
+    .score-area h2 {
+      margin: 0 0 10px;
+      font-size: 1.8rem;
+    }
+    .score-area h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+      color: var(--brand);
+    }
+    .score-area .score-display {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .score-area .grade-display {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .grade {
+      margin-top: 10px; font-weight: 700; font-size: 16px;
+      padding: 10px 12px; border-radius: 12px; display: inline-block;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+    .grade.A-plus { background: linear-gradient(180deg, rgba(79,140,255,0.25), rgba(79,140,255,0.12)); border-color: rgba(79,140,255,0.5); }
+    .grade.A { background: linear-gradient(180deg, rgba(22,163,74,0.2), rgba(22,163,74,0.08)); border-color: rgba(22,163,74,0.4); }
+    .grade.B { background: linear-gradient(180deg, rgba(245,158,11,0.2), rgba(245,158,11,0.08)); border-color: rgba(245,158,11,0.4); }
+    .grade.C { background: linear-gradient(180deg, rgba(239,68,68,0.2), rgba(239,68,68,0.08)); border-color: rgba(239,68,68,0.4); }
+    .grade.fail { background: linear-gradient(180deg, rgba(153,163,179,0.2), rgba(153,163,179,0.08)); border-color: rgba(153,163,179,0.4); }
+    .muted { color: var(--muted); font-size: 13px; }
+    .footer { margin-top: 22px; color: var(--muted); font-size: 12px; }
+    details { background: rgba(255,255,255,0.03); padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); }
+    details > summary { cursor: pointer; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .timer {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--brand);
+      direction: ltr;
+      border: 1px solid rgba(79,140,255,0.5);
+      background-color: rgba(79,140,255,0.1);
+      padding: 5px 10px;
+      border-radius: 8px;
+      z-index: 999;
+    }
+    .name-input-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #userName {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--muted);
+      background: var(--chip);
+      color: var(--text);
+      width: 80%;
+      max-width: 300px;
+    }
+    #userName::placeholder {
+      color: var(--muted);
+    }
+    @media (min-width: 720px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="timer" id="timer">15:00</div>
+  <div class="wrap" id="quiz-container-main">
+    <div class="presented-by">Presented by Bilal Ahmad</div>
+    <div class="card">
+      <div class="header">
+        <h1 id="quiz-title">ویلڈنگ کا ٹیسٹ 👨‍🏭</h1>
+      </div>
+      <div class="sub">
+        <p>
+          یہاں ویلڈنگ کے کچھ اہم سوالات دیے گئے ہیں۔ ہر سوال کا صرف 5 نمبر ہے
+        </p>
+        <div style="direction: ltr; text-align: left;">
+          <span class="chip">SMAW / GMAW basics</span> <span class="chip">Positions</span> <span class="chip">Safety</span> <span class="chip">40 سوال</span>
+        </div>
+      </div>
+
+      <div id="quiz-section">
+        <div class="name-input-container">
+          <p>ٹیسٹ شروع کرنے کے لیے اپنا نام درج کریں:</p>
+          <input type="text" id="userName" placeholder="اپنا نام یہاں لکھیں" />
+          <button id="btnStartQuiz" style="margin-top: 10px;">Start Test</button>
+        </div>
+        <div id="quiz-content" style="display: none;">
+          <div class="grid" id="quiz"></div>
+          <div style="text-align: center; margin-top: 20px;">
+            <button id="btnSubmit">Submit</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="result-section" class="score-area" style="display: none;">
+        <h3 class="presented-by-result">Presented by Bilal Ahmad</h3>
+        <h2 id="result-title"></h2>
+        <h3 id="result-name"></h3>
+        <div class="score-display">نمبر: <span id="score-value"></span> / 200</div>
+        <div class="grade-display">گریڈ: <span id="grade-value"></span></div>
+        <button id="btnRevealAnswers" style="margin-top: 20px;">See Answers</button>
+        <button id="btnReset">Start Again</button>
+      </div>
+
+      <details class="footer">
+        <summary>اہم نکات (Tips):</summary>
+        <ul>
+          <li>"G" = Groove weld, "F" = Fillet weld.</li>
+          <li>2F = Fillet weld in horizontal position.</li>
+          <li>E6013 runs well on AC; E6010 needs DCEP; E7018 store warm & dry.</li>
+          <li>Arc length ≈ electrode core diameter; keep travel angle ~5–15°.</li>
+          <li>Cutting disc ~1–3 mm; grinding disc ~6 mm (thick).</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    const DATA = [
+      { q: "E6013 الیکٹروڈ عام طور پر کس پاور سورس پر بہترین کام کرتا ہے؟", options: ["AC (یا DCEP)", "صرف DCEN", "صرف DCEP", "صرف AC 110V"], a: 0, explain: "E6013 rutile type ہے؛ یہ AC پر آسانی سے run ہوتی ہے (DCEP پر بھی چلتی ہے)۔" },
+      { q: "E7018 الیکٹروڈ کے چپکنے (sticking) کی عام وجہ کیا ہوتی ہے؟", options: ["ایمپیریج زیادہ", "ایمپیریج کم / نم (moist) راڈز / بہت چھوٹا آرک", "ویلڈنگ کا زاویہ 90°", "بیس میٹل بہت زیادہ گرم"], a: 1, explain: "Low-hydrogen 7018 کو خشک رکھنا اور ٹھیک کرنٹ/آرک لینتھ ضروری ہے؛ ورنہ sticking ہوتی ہے۔" },
+      { q: "2F کس پوزیشن کو ظاہر کرتا ہے؟", options: ["فلیٹ فِلٹ (Flat fillet)", "ہاریزونٹل فِلٹ (Horizontal fillet)", "ورٹیکل گروو (Vertical groove)", "اوور ہیڈ گروو (Overhead groove)"], a: 1, explain: "2F = fillet weld in the horizontal position (T‑joint پر)۔" },
+      { q: "ویلڈنگ کی اصطلاحات میں 'G' اور 'F' کا کیا مطلب ہے؟", options: ["G = گیس، F = فلکس", "G = گروو ویلڈ، F = فِلٹ ویلڈ", "G = گراؤنڈ، F = فیس", "G = گیج، F = فیوژن"], a: 1, explain: "G = groove, F = fillet — e.g., 1G/2G اور 1F/2F positions۔" },
+      { q: "روٹ پاس (Root pass) کسے کہتے ہیں؟", options: ["آخری پاس جو کیپ (cap) دیتا ہے۔", "پہلا پاس جو جوائنٹ کے بنیادی حصے (روٹ) کو بھرتا ہے۔", "صرف سٹینلیس سٹیل پر ہوتا ہے۔", "صرف TIG میں ہوتا ہے۔"], a: 1, explain: "روٹ پاس جوائنٹ کے root کو پہلی دفعہ seal/fill کرتا ہے۔" },
+      { q: "کیپنگ پاس (Capping pass) کا مقصد کیا ہے؟", options: ["بیک گاؤجنگ (Back gouging)", "ویلڈ فیس کو مکمل شکل اور فِنش دینا", "ہیٹ ان پُٹ (heat input) کم کرنا", "ٹیک ویلڈ (tack weld) ہٹانا"], a: 1, explain: "Cap pass weld face کو final profile/appearance دیتا ہے۔" },
+      { q: "T-joint اصل میں کیا ہے؟", options: ["ایک پوزیشن", "ایک جوائنٹ کی قسم", "الیکٹروڈ سٹوریج کا طریقہ", "ایک WPS کوڈ"], a: 1, explain: "T-joint ایک جوائنٹ کی قسم ہے؛ positions (1F, 2F, 3F, 4F) اس پر apply ہوتی ہیں۔" },
+      { q: "SMAW میں 3.2 mm کے الیکٹروڈ کے لیے مناسب آرک لینتھ (arc length) کیا ہوتی ہے؟", options: ["~1 cm", "الیکٹروڈ کے کور ڈایا میٹر کے برابر یا تھوڑا کم (~3 mm)", "بالکل ٹچ (zero gap)", "ہمیشہ 6 mm"], a: 1, explain: "General rule: arc length ≈ core wire diameter (rutile rods پر)۔" },
+      { q: "کونسا الیکٹروڈ عام طور پر DCEP پر چلانا ضروری ہوتا ہے (گہری پینٹریشن کے لیے)؟", options: ["E6010", "E6013", "E308L", "E7014"], a: 0, explain: "Cellulosic E6010 اکثر DCEP پر run ہوتا ہے (deep penetration)۔" },
+      { q: "پوروسٹی (Porosity) کی بڑی وجہ کیا ہوتی ہے؟", options: ["بہت زیادہ صاف دھات", "نم (moist) / آلودہ سطح یا الیکٹروڈ", "ہمیشہ بہت زیادہ ایمپیریج", "زاویہ 0°"], a: 1, explain: "Rust, oil, paint, moisture — ان سے gas pockets (porosity) بنتی ہیں۔" },
+      { q: "سپاٹر (Spatter) کم کرنے کا صحیح طریقہ کیا ہے؟", options: ["آرک کی لمبائی زیادہ رکھنا", "درست کرنٹ + چھوٹی/مناسب آرک + 5-15° کا ٹریول اینگل", "ہر وقت ویو (weave) کرنا", "راڈ کو زور سے دبانا"], a: 1, explain: "Stable arc, ٹھیک کرنٹ اور مناسب اینگل سے spatter کم ہوتا ہے۔" },
+      { q: "کَٹنگ ڈسک (cutting disc) اور گرائنڈنگ ڈسک (grinding disc) کی موٹائی کے بارے میں کونسی بات درست ہے؟", options: ["دونوں کی موٹائی ~6 mm ہوتی ہے۔", "کَٹنگ کی موٹائی ~1-3 mm ہوتی ہے؛ گرائنڈنگ کی موٹائی ~6 mm ہوتی ہے۔", "کَٹنگ کی موٹائی ~10 mm ہوتی ہے۔", "گرائنڈنگ کی موٹائی ہمیشہ 1 mm ہوتی ہے۔"], a: 1, explain: "عام طور پر cutting discs پتلی (1-3 mm)، grinding discs موٹی (~6 mm)۔" },
+      { q: "SMAW میں 90–150 A کے لیے فیس شیلڈ کا مناسب شیڈ نمبر کیا ہے؟", options: ["شیڈ 5", "شیڈ 8", "شیڈ 10", "صرف شیڈ 14"], a: 2, explain: "اس کرنٹ رینج میں shade 10 عام طور پر استعمال ہوتا ہے (safety first)۔" },
+      { q: "موٹی/ہائی کاربن سٹیل کو ویلڈ کرتے وقت پری ہیٹ کیوں کیا جاتا ہے؟", options: ["رنگ اچھا آئے", "کولنگ کو سست کرکے کریکنگ/HAZ مسائل کم کرنا", "ایمپیریج بڑھانا", "سلیگ ہٹانا"], a: 1, explain: "Preheat سے cooling rate کنٹرول ہوتی ہے؛ hydrogen cracking کا رسک کم ہوتا ہے۔" },
+      { q: "2F فِلٹ (E6013) میں عام ٹریول اینگل کتنا ہونا چاہیے؟", options: ["0° بالکل سیدھا", "5-15° (تھوڑا ڈریگ/پُش) + 45° ورک اینگل", "40-60° ٹریول", "90° ٹریول"], a: 1, explain: "Work angle ~45°؛ travel angle عام طور پر 5-15°۔" },
+      { q: "ویلڈ کی پینٹریشن (penetration) بڑھانے کے لیے آپ کیا کریں گے؟", options: ["آرک لینتھ بڑھائیں", "ویلڈنگ کرنٹ کم کریں", "ویلڈنگ کی رفتار بڑھائیں", "ویلڈنگ کرنٹ اور رفتار مناسب رکھیں"], a: 3, explain: "پینٹریشن بڑھانے کے لیے صحیح کرنٹ اور مناسب رفتار ضروری ہے۔ بہت زیادہ یا بہت کم رفتار دونوں سے پینٹریشن متاثر ہوتی ہے۔" },
+      { q: "ایک خراب گراؤنڈ کلپ کی وجہ سے کیا مسئلہ ہو سکتا ہے؟", options: ["اوور ہیٹنگ", "غیر مستحکم آرک اور سپاٹر میں اضافہ", "ویلڈ ٹھنڈا ہو جائے گا", "الیکٹروڈ جلدی جلتا ہے"], a: 1, explain: "خراب گراؤنڈ سے کرنٹ کا فلو رک جاتا ہے جس سے آرک بے ترتیب ہو جاتی ہے اور سپاٹر بڑھتا ہے۔" },
+      { q: "SMAW میں سب سے زیادہ استعمال ہونے والا الیکٹروڈ کونسا ہے؟", options: ["E6013 اور E7018", "E7024", "E8010", "E9018"], a: 0, explain: "E6013 جنرل پرپز کے لیے اور E7018 ہائی کوالٹی ویلڈز کے لیے بہت عام ہیں۔" },
+      { q: "GMAW (MIG) میں شیلڈنگ گیس کا کیا کام ہے؟", options: ["ویلڈ کو ٹھنڈا کرنا", "آرک کو مستحکم کرنا", "ہوا میں موجود آکسیجن کو ویلڈ پول سے دور رکھنا", "ویلڈ میٹل کو تیز بنانا"], a: 2, explain: "شیلڈنگ گیس کا بنیادی کام ویلڈ پول کو ہوا میں موجود آکسیجن اور نائٹروجن سے محفوظ رکھنا ہے۔" },
+      { q: "شارٹ سرکٹ کی بڑی وجہ کیا ہے؟", options: ["آرک لینتھ کا بہت چھوٹا ہونا", "ویلڈنگ کرنٹ کا بہت زیادہ ہونا", "ویلڈنگ کرنٹ کا بہت کم ہونا", "آرک لینتھ کا بہت لمبا ہونا"], a: 0, explain: "جب الیکٹروڈ بیس میٹل کے بہت قریب ہوتا ہے تو شارٹ سرکٹ ہوتا ہے۔" },
+      { q: "ایک 'weld puddle' کیا ہے؟", options: ["ویلڈنگ کے بعد ٹھنڈا ہوا دھات", "ویلڈنگ کے دوران پگھلی ہوئی دھات کا تالاب", "ایک قسم کا ویلڈنگ جوائنٹ", "ویلڈنگ کے بعد آنے والی دراڑ"], a: 1, explain: "یہ وہ پگھلی ہوئی دھات ہے جو آرک کے نیچے بنتی ہے۔" },
+      { q: "ویج (Wedge) کا کیا کام ہے؟", options: ["ویلڈ کو ٹھنڈا کرنا", "دو پلیٹوں کو جوڑنا", "ویجنگ اور ٹمپنگ کے لیے استعمال ہوتا ہے", "سلیگ ہٹانا"], a: 2, explain: "یہ ویلڈنگ کے دوران پلیٹوں کو صحیح جگہ پر رکھنے کے لیے استعمال ہوتا ہے، خاص طور پر پائپ لائن میں۔" },
+      { q: "ایک فلر میٹل (Filler metal) کیا ہے؟", options: ["وہ دھات جو ویلڈنگ کے لیے استعمال نہیں ہوتی", "وہ دھات جو ویلڈ جوائنٹ کو بھرنے کے لیے شامل کی جاتی ہے", "ایک قسم کا شیلڈنگ گیس", "کوٹنگ کی قسم"], a: 1, explain: "فلر میٹل ویلڈ کو جوائن کرنے والی دھات ہے، جیسے کہ الیکٹروڈ یا تار۔" },
+      { q: "فلیش (Flash) سے حفاظت کے لیے کیا ضروری ہے؟", options: ["سنی گلاسز پہننا", "آگ بجھانے کا آلہ پاس رکھنا", "ویلڈنگ ہیلمٹ کا استعمال کرنا", "ہاتھوں پر دستانے پہننا"], a: 2, explain: "فلیش سے آنکھوں کو شدید نقصان ہو سکتا ہے، اس لیے ویلڈنگ ہیلمٹ ضروری ہے۔" },
+      { q: "کک بیک (Kickback) کیا ہے؟", options: ["ویلڈنگ کے بعد جوائنٹ میں کریک", "گرائنڈر کا اچانک پلٹ کر لگنا", "الیکٹروڈ کا چپکنا", "ایک قسم کی ویلڈنگ مشین"], a: 1, explain: "یہ ایک خطرناک حالت ہے جب گرائنڈر ڈسک کسی چیز سے ٹکرا کر اچانک واپس اچھلتی ہے۔" },
+      { q: "ایک Weld Procedure Specification (WPS) کیا ہے؟", options: ["ویلڈنگ مشین کا ماڈل نمبر", "ایک دستاویز جو ویلڈنگ کے لیے تمام ضروری پیرامیٹرز بتاتی ہے", "ایک گیس کا نام", "ویلڈنگ راڈ کا کوڈ"], a: 1, explain: "WPS ایک دستاویز ہے جو بتاتی ہے کہ کسی خاص ویلڈ کو کیسے مکمل کیا جائے۔" },
+      { q: "ہائیڈروجن کریکنگ (Hydrogen cracking) کو روکنے کے لیے کیا کیا جاتا ہے؟", options: ["تیز کولنگ", "ویلڈ کی صفائی", "پری ہیٹ اور سلو کولنگ", "زیادہ کرنٹ"], a: 2, explain: "پری ہیٹ سے دھات آہستہ آہستہ ٹھنڈی ہوتی ہے، جس سے ہائیڈروجن کریکنگ کا خطرہ کم ہو جاتا ہے۔" },
+      { q: "کونسا گیس GMAW کے لیے سب سے عام ہے؟", options: ["آرگون", "ہیلئم", "آکسیجن", "نائٹروجن"], a: 0, explain: "آرگون سب سے زیادہ استعمال ہونے والی شیلڈنگ گیس ہے، خاص طور پر سٹیل کے لیے۔" },
+      { q: "3G پوزیشن کا کیا مطلب ہے؟", options: ["فلیٹ گروو", "ورٹیکل گروو", "اوور ہیڈ گروو", "ہاریزونٹل گروو"], a: 1, explain: "3G کا مطلب ہے 'ورٹیکل پوزیشن میں گروو ویلڈ'۔" },
+      { q: "گراؤنڈنگ (Grounding) کا کیا فائدہ ہے؟", options: ["یہ ویلڈنگ کی رفتار بڑھاتا ہے", "یہ ویلڈنگ سرکٹ کو مکمل کرتا ہے اور آپریٹر کو بجلی کے جھٹکے سے بچاتا ہے", "یہ سلیگ ہٹانے میں مدد کرتا ہے", "یہ ویلڈ پول کو صاف رکھتا ہے"], a: 1, explain: "گراؤنڈنگ ویلڈنگ سرکٹ کا ایک لازمی حصہ ہے اور حفاظت کے لیے بہت ضروری ہے۔" },
+      { q: "ویلڈنگ کے بعد ویلڈ کی سطح پر آنے والی دراڑ کو کیا کہتے ہیں؟", options: ["پگھلنے کا نقص (Lack of Fusion)", "اوورلیپ (Overlap)", "کریک (Crack)", "انڈر کٹ (Undercut)"], a: 2, explain: "کریک ویلڈنگ میں ایک سنجیدہ نقص ہے جو تناؤ اور کولنگ کی وجہ سے بنتا ہے۔" },
+      { q: "TIG ویلڈنگ کا دوسرا نام کیا ہے؟", options: ["SMAW", "GMAW", "GTAW", "FCAW"], a: 2, explain: "TIG کا پورا نام Tungsten Inert Gas ہے، اور GTAW کا پورا نام Gas Tungsten Arc Welding ہے۔" },
+      { q: "کونسی چیز ذاتی حفاظتی سامان (PPE) کا حصہ نہیں ہے؟", options: ["ویلڈنگ ہیلمٹ", "دستانے", "گرائنڈر", "محفوظ جوتے (Safety shoes)"], a: 2, explain: "گرائنڈر ایک ٹول ہے جبکہ باقی PPE ہیں۔" },
+      { q: "GMAW میں 'Short Circuit Transfer' کیا ہے؟", options: ["ایک قسم کا ویلڈنگ نقص", "جب فیوژن ٹھیک نہ ہو", "جب فیوژن بہت زیادہ ہو", "جب الیکٹروڈ تار تیزی سے پگھل کر بار بار بیس میٹل کو چھوتی ہے"], a: 3, explain: "یہ ایک ٹرانسفر موڈ ہے جہاں تار بیس میٹل کو چھوتی اور شارٹ سرکٹ کرتی ہے۔" },
+      { q: "1G کا مطلب کیا ہے؟", options: ["فلیٹ پوزیشن میں گروو ویلڈ", "ہاریزونٹل پوزیشن میں گروو ویلڈ", "ورٹیکل پوزیشن میں گروو ویلڈ", "اوور ہیڈ پوزیشن میں گروو ویلڈ"], a: 0, explain: "1G فلیٹ گروو پوزیشن کو ظاہر کرتا ہے۔" },
+      { q: "ویلڈ کے کونسا نقص کو 'Undercut' کہتے ہیں؟", options: ["جب ویلڈ جوائنٹ کے کنارے سے پتلا ہو", "جب ویلڈ کی سطح پگھلی نہ ہو", "جب ویلڈ میٹل بیس میٹل سے اوپر ہو", "جب سلیگ اندر پھنس جائے"], a: 0, explain: "Undercut ایک groove ہے جو ویلڈ کے ساتھ بیس میٹل میں بنتی ہے۔" },
+      { q: "فلکس کورڈ آرک ویلڈنگ (FCAW) میں فلکس کا کیا کام ہے؟", options: ["آرک کو ٹھنڈا کرنا", "سلیگ بنانا اور شیلڈنگ گیس فراہم کرنا", "صرف ویلڈ کو سجانا", "ویج کا استعمال کرنا"], a: 1, explain: "فلکس پگھل کر سلیگ کی ایک حفاظتی تہہ بناتا ہے اور گیس خارج کرتا ہے۔" },
+      { q: "بیس میٹل (Base metal) کیا ہے؟", options: ["فلر میٹل", "وہ میٹل جس کو ویلڈ کیا جا رہا ہے", "ایک قسم کا الیکٹروڈ", "گراؤنڈ کلپ"], a: 1, explain: "بیس میٹل وہ دھات ہے جس کو جوڑنے کے لیے ویلڈنگ کی جاتی ہے۔" },
+      { q: "پائپ کی ویلڈنگ میں 6G پوزیشن کا کیا مطلب ہے؟", options: ["فلیٹ گروو", "فکسڈ پوزیشن پر گروو ویلڈ (پائپ نہیں گھومے گا)", "ورٹیکل پوزیشن", "اوور ہیڈ پوزیشن"], a: 1, explain: "6G ایک فکسڈ پوزیشن ہے، جو بہت مشکل مانی جاتی ہے کیونکہ پائپ کو گھمایا نہیں جا سکتا۔" },
+      { q: "آرک بلا (Arc blow) کا مسئلہ کب ہوتا ہے؟", options: ["زیادہ کرنٹ ہونے پر", "مقناطیسی فیلڈ کی وجہ سے آرک کا بھٹکنا", "کم ولٹیج کی وجہ سے", "ویلڈنگ کی رفتار کم ہونے پر"], a: 1, explain: "آرک بلا مقناطیسی قوتوں کی وجہ سے ہوتا ہے جو آرک کو اس کے راستے سے ہٹاتی ہیں۔" }
+    ];
+
+    const quizEl = document.getElementById('quiz');
+    const resultSection = document.getElementById('result-section');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const btnRevealAnswers = document.getElementById('btnRevealAnswers');
+    const btnReset = document.getElementById('btnReset');
+    const btnStartQuiz = document.getElementById('btnStartQuiz');
+    const userNameInput = document.getElementById('userName');
+    const quizSection = document.getElementById('quiz-section');
+    const quizContent = document.getElementById('quiz-content');
+
+    const resultTitle = document.getElementById('result-title');
+    const resultName = document.getElementById('result-name');
+    const scoreValue = document.getElementById('score-value');
+    const gradeValue = document.getElementById('grade-value');
+    const timerEl = document.getElementById('timer');
+    const quizContainerMain = document.getElementById('quiz-container-main');
+
+    const totalQuestions = 40;
+    const grading = {
+      'A+': 190,
+      'A': 170,
+      'B': 140,
+      'C': 110
+    };
+    const developerName = "Bilal Ahmad";
+
+    let showing = [];
+    let timerInterval;
+    let userName = "";
+    const quizDuration = 15 * 60; // 15 minutes in seconds
+
+    function shuffle(arr) {
+      return arr.map(x => [Math.random(), x]).sort((a, b) => a[0] - b[0]).map(p => p[1]);
+    }
+
+    function render() {
+      showing = shuffle(DATA).slice(0, totalQuestions);
+      quizEl.innerHTML = '';
+      showing.forEach((item, idx) => {
+        const id = `q${idx}`;
+        const q = document.createElement('div');
+        q.className = 'q';
+        q.innerHTML = `
+          <span class="chip">سوال ${idx + 1}</span>
+          <h3>${item.q}</h3>
+          <div class="options">
+            ${item.options.map((opt, i) => `
+              <label class="opt"><input type="radio" name="${id}" value="${i}" /> <span>${opt}</span></label>
+            `).join('')}
+          </div>
+          <div class="explain">${item.explain}</div>
+        `;
+        quizEl.appendChild(q);
+      });
+      document.querySelector('.presented-by').textContent = `Presented by ${developerName}`;
+    }
+
+    function getGrade(score) {
+      if (score >= grading['A+']) return { text: 'A+', class: 'A-plus' };
+      if (score >= grading['A']) return { text: 'A', class: 'A' };
+      if (score >= grading['B']) return { text: 'B', class: 'B' };
+      if (score >= grading['C']) return { text: 'C', class: 'C' };
+      return { text: 'فیل', class: 'fail' };
+    }
+
+    function submit(isTimeUp = false) {
+      clearInterval(timerInterval);
+      const blocks = [...document.querySelectorAll('.q')];
+      let score = 0;
+      blocks.forEach((block, idx) => {
+        const item = showing[idx];
+        const selected = block.querySelector('input[type="radio"]:checked');
+        if (selected) {
+          const val = Number(selected.value);
+          if (val === item.a) {
+            score += 5;
+          }
+        }
+      });
+      
+      const gradeInfo = getGrade(score);
+      
+      resultTitle.textContent = score >= grading['C'] ? "مبارک ہو! 🎉" : "افسوس!";
+      resultName.textContent = `${userName}، آپ نے ٹیسٹ میں یہ مارکس لیے:`;
+      scoreValue.textContent = score;
+      gradeValue.textContent = gradeInfo.text;
+      gradeValue.className = `grade-display ${gradeInfo.class}`;
+
+      quizSection.style.display = 'none';
+      resultSection.style.display = 'block';
+      timerEl.style.display = 'none';
+    }
+
+    function reveal() {
+      const blocks = [...document.querySelectorAll('.q')];
+      blocks.forEach((block, idx) => {
+        const item = showing[idx];
+        const opts = [...block.querySelectorAll('label.opt')];
+        const selected = block.querySelector('input[type="radio"]:checked');
+        
+        opts.forEach(l => {
+          l.classList.remove('correct', 'wrong');
+          l.style.cursor = 'default';
+          l.querySelector('input').disabled = true;
+        });
+        
+        if (selected) {
+          const val = Number(selected.value);
+          const target = opts[val];
+          if (val === item.a) {
+            target.classList.add('correct');
+          } else {
+            target.classList.add('wrong');
+            opts[item.a]?.classList.add('correct');
+          }
+        } else {
+          opts[item.a]?.classList.add('correct');
+        }
+        block.querySelector('.explain').style.display = 'block';
+      });
+      btnRevealAnswers.style.display = 'none';
+      resultSection.style.display = 'none';
+      quizSection.style.display = 'block';
+      btnSubmit.style.display = 'none';
+    }
+
+    function reset() {
+      quizSection.style.display = 'block';
+      quizContent.style.display = 'none';
+      resultSection.style.display = 'none';
+      btnSubmit.style.display = 'block';
+      userNameInput.value = '';
+      timerEl.style.display = 'block';
+      timerEl.textContent = '15:00';
+    }
+
+    function startTimer() {
+      let timeRemaining = quizDuration;
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        if (timeRemaining <= 0) {
+          submit(true);
+        }
+      }, 1000);
+    }
+
+    btnStartQuiz.addEventListener('click', () => {
+      userName = userNameInput.value.trim();
+      if (userName.length > 0) {
+        quizContent.style.display = 'block';
+        btnStartQuiz.style.display = 'none';
+        userNameInput.style.display = 'none';
+        document.querySelector('.name-input-container p').style.display = 'none';
+        render();
+        startTimer();
+      } else {
+        alert("براہ کرم اپنا نام درج کریں تاکہ آپ کوئز شروع کر سکیں۔");
+      }
+    });
+
+    btnSubmit.addEventListener('click', () => submit(false));
+    btnRevealAnswers.addEventListener('click', reveal);
+    btnReset.addEventListener('click', reset);
+
+    // Initial state
+    window.onload = reset;
+  </script>
+</body>
+</html>
