@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>EPS-KLT Reading Test — 40 MCQs</title>
+<style>
+  :root{--bg:#f6f8fb;--card:#fff;--accent:#0b69ff;--muted:#666;}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans',sans-serif;background:var(--bg);margin:0;padding:20px;color:#111;}
+  .container{max-width:980px;margin:0 auto;}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:18px;}
+  header h1{font-size:20px;margin:0;}
+  .card{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(15,20,40,0.06);margin-bottom:14px;}
+  .meta{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted);}
+  .questions{margin-top:8px;}
+  .q{border:1px solid #eef2ff;padding:12px;border-radius:8px;margin-bottom:10px;}
+  .q h3{margin:0 0 8px 0;font-size:15px;}
+  .opts label{display:block;margin:6px 0;padding:8px;border-radius:6px;border:1px solid #f0f2ff;cursor:pointer;}
+  .opts input{margin-right:8px;}
+  .actions{display:flex;gap:10px;align-items:center;margin-top:12px;}
+  button{background:var(--accent);color:#fff;padding:10px 14px;border:0;border-radius:8px;cursor:pointer;}
+  .secondary{background:#eee;color:#111;}
+  .result{margin-top:14px;padding:12px;border-radius:8px;background:#fff;}
+  .note{font-size:13px;color:var(--muted);margin-top:8px;}
+  .small{font-size:13px;color:var(--muted);}
+  @media (max-width:640px){header{flex-direction:column;align-items:flex-start} .actions{flex-direction:column;align-items:stretch}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div>
+      <h1>EPS-KLT — Reading Practice Test (40 MCQs)</h1>
+      <div class="meta">Each question = <strong>5 marks</strong> · Total = <strong>200</strong> · Pass = <strong>110</strong></div>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="note">
+      <strong>Important:</strong> This test was generated from the material you provided. <br>
+      If you want automatic grading, open the script near the bottom and set the <code>answers</code> array to the correct option numbers (1-4) for all 40 questions. See instructions in the JS comments.
+    </div>
+  </div>
+
+  <form id="testForm" class="card">
+    <div class="questions" id="questionsContainer"></div>
+
+    <div class="actions">
+      <button type="button" id="submitBtn">Submit & Grade</button>
+      <button type="button" id="clearBtn" class="secondary">Clear Answers</button>
+      <div class="small">After submit your score, grade & pass/fail will appear below.</div>
+    </div>
+
+    <div id="resultArea" class="result" style="display:none;"></div>
+  </form>
+
+  <div class="card small">
+    <strong>How to enable auto-grading:</strong>
+    <ol>
+      <li>Open this HTML file in a text editor.</li>
+      <li>Find the JavaScript variable <code>const answers = [...]</code> near the bottom.</li>
+      <li>Replace the zeros with correct option numbers (1,2,3 or 4) for all 40 items, e.g. <code>[4,2,1,...]</code>.</li>
+      <li>Save and reopen in browser — now Submit will compute your score & grade.</li>
+    </ol>
+    <div class="note">Agar aap chahein to correct answer key yahin bhej dein — main aap ke liye file update kar dunga.</div>
+  </div>
+</div>
+
+<script>
+/*
+  QUESTIONS ARRAY
+  Each entry: { id: number, text: "question text", options: ["opt1","opt2","opt3","opt4"] }
+  — These 40 questions were taken from the material you provided.
+*/
+const questions = [
+  {id:201, text:"괜찮아요 많이 아파 보여요? 나：_______ . 에 걸렸어요 열도 나고 목도 아파요", options:["약","병원","기침","감기"]},
+  {id:202, text:"저는 구청에서 한국말을 배웠어요 월부터 월까지 동안 배웠어요 . 1 6 6 _____ .", options:["월","년","개월","시간"]},
+  {id:203, text:"저는 어제 시장에 갔어요 에서 과일을 샀어요 .", options:["여기","거기","어디","저기"]},
+  {id:204, text:"제가 제일 좋아하는 은 는 가을입니다 ________ .", options:["음식","운동","과일","계절"]},
+  {id:205, text:"저는 인도네시아에서 왔습니다 제 은 는 인도네시아입니다 .", options:["고향","가족","이름","취미"]},
+  {id:206, text:"친구가 오늘 시 비행기로 한국에 오기 때문에 에 마중 가요 10 ________ .", options:["항구","공항","정류장","기차역"]},
+  {id:207, text:"가：이 이름이 뭐예요 ________ ? 나：수박이에요 주로 여름철에 많이 먹는데 아주 달아요 .", options:["고기","과자","과일","식당"]},
+  {id:208, text:"가：시장에 가서 무엇을 샀어요? 나：아무것도 사지 않고 만 했어요 _________ .", options:["물건","등산","회의","구경"]},
+  {id:209, text:"가：어디에서 살아요? 나：직장 동료들과 함께 회사 에서 살아요 _________ .", options:["교실","공원","화장실","기숙사"]},
+  {id:210, text:"저는 올해 열아홉 살입니다 에 스무 살이 됩니다 . ________ .", options:["나이","작년","내년","어제"]},
+
+  {id:211, text:"가：내일 이 가 어때요 __________ / ? 나：비가 오고 바람이 많이 불 거예요.", options:["시간","날짜","날씨","계절"]},
+  {id:212, text:"오늘은 월 일입니다 은 는 월 일입니다 9 11 . _________ / 9 12 .", options:["어제","내일","모레","그저께"]},
+  {id:237, text:"가：경주에 가는 기차는 언제 출발해요? 나：11 . 시에 출발해요 가：그럼 지금 시니까 한 이 나 기다려야겠군요 10 ________( ) .", options:["시","번","분","시간"]},
+  {id:238, text:"가：어디에서 점심을 먹을까요? 나：회사 근처에 김치찌개를 잘하는 이 가 있어요 거기로 갈까요 _________ / . ?", options:["식당","요리","커피숍","도서관"]},
+  {id:239, text:"도로나 공원에 를 버리면 안 됩니다 공공장소는 깨끗이 사용해야 합니다 __________ .", options:["나무","자판기","쓰레기","공중전화"]},
+  {id:240, text:"저는 눈이 나쁩니다 그래서 책을 볼 때 을 를 끼어야 합니다 . ________ / .", options:["구두","안경","장갑","모자"]},
+  {id:241, text:"가：내일 시간 있어요 내일 좀 만나고 싶은데요 ? 나：죄송해요 내일은 제가 이 가 있어요 고향 친구들을 만나기로 했어요 . _________ / . .", options:["약속","고향","회의","전화"]},
+  {id:242, text:"오늘은 일요일입니다 은 는 토요일이었습니다 . _________ / .", options:["내일","모레","어제","그저께"]},
+  {id:261, text:"가：커피를 또 마셔요? 나：네 커피를 좋아하거든요 보통 하루에 여섯 마셔요 , . ___ .", options:["잔","장","시","살"]},
+  {id:262, text:"가：이 서류 좀 복사해 주세요. 나：몇 복사해 드릴까요 _____ ?", options:["잔","장","시","살"]},
+
+  {id:263, text:"라면이나 국수는 으 로 먹습니다 ________( ) .", options:["칼","연필","가위","젓가락"]},
+  {id:264, text:"가：여기서 시청에 어떻게 가요? 나：저기 편의점 앞에 이 가 있어요 거기서 번 버스를 타면 돼요 __________ / . 272 .", options:["공항","출입문","정류장","교통카드"]},
+  {id:265, text:"회사 사람들은 월요일부터 금요일까지 일하고 에는 쉽니다 , _________ .", options:["주말","월말","연말","기말"]},
+  {id:266, text:"가：여기에 을 를 해도 돼요 _________ / ? 나：아니요 여기에 차를 세우면 안 돼요 , .", options:["주문","주차","세수","세차"]},
+  {id:309, text:"짐이 많을 때는 지하철역에 있는 물품 보관함에 가방을 수 있습니다 __________ . 하루 시간 이용료는 원입니다 (24 ) 1,000 .", options:["살","탈","맡길","찾을"]},
+  {id:310, text:"운전할 때는 반드시 안전벨트를 합니다 사고가 났을 경우 안전벨트 _____________. 가 당신의 생명을 구할 수 있습니다.", options:["사야","매야","타야","들어야"]},
+
+  {id:311, text:"가：무하마드 씨 오늘 저녁에 삼겹살 어때요 , ? 나：미안해요 저는 돼지고기를 안 그렇지만 소고기와 닭고기는 좋아해요 . _________.", options:["먹어요","마셔요","입어요","가르쳐요"]},
+  {id:312, text:"가：희철 씨 저 사람이 누구지요 저 사람 이름을 알아요 , ? ? 나：아니요 이름은 하지만 얼굴은 본 적이 있어요 , _______.", options:["없어요","몰라요","싫어요","안 해요"]},
+  {id:313, text:"저는 한국말을 한 달밖에 안 배웠어요 그래서 한국말을 잘 . __________.", options:["않아요","알아요","못해요","없어요"]},
+  {id:314, text:"가：안녕하세요 오늘부터 여기서 일하게 된 후차오라고 합니다 ? . 나：반가워요 모르는 것이 있으면 언제든지 . ____________.", options:["만드세요","올라가세요","인사하세요","물어보세요"]},
+  {id:387, text:"가：알리 씨 어디 아파요 얼굴색이 안 좋아요 , ? . 나：그냥 좀 피곤해서 그래요 지난 일주일 동안 쉬지 않고 일했거든요 . ________ .", options:["계속","잠깐","자주","가끔"]},
+
+  {id:388, text:"가：명준 씨 우리 지금 출발할 건데 같이 갑시다 , . 나：먼저 가세요 저는 지금은 갈 수가 없어요 제가 따라갈게요 . . __________ .", options:["벌써","아직","일찍","나중에"]},
+  {id:389, text:"월요일부터 토요일까지는 매일 아침 시까지 출근해야 합니다 그렇지만 오늘은 일 9 . 요일이라서 회사에 가지 않습니다 그래서 일어났습니다 . _________.", options:["늦게","크게","많게","적게"]},
+  {id:390, text:"가：여기 계산이 잘못되었는데요. 나：아 죄송합니다 손님 계산해 드리겠습니다 ! , . ___________ .", options:["더","안","아직","다시"]},
+  {id:391, text:"가：이것도 좀 드셔 보세요 정말 맛있어요 . . 나：고맙지만 배가 불러서 먹을 수가 없어요 너무 많이 먹었어요 ____________ . .", options:["더","꼭","안","못"]},
+  {id:392, text:"가：주말에 시간 있어요 같이 영화 볼래요 ? ? 나：네 좋아요 주말에는 사람이 많으니까 표를 사 놓는 게 좋겠어요 , . _________.", options:["미리","아까","아직","벌써"]},
+
+  {id:504, text:"이 표지는 무슨 뜻입니까?", options:["손을 씻으십시오.","문을 닫으십시오.","안전띠를 매십시오.","손잡이를 당기십시오."]},
+  {id:505, text:"이 표지는 무슨 뜻입니까?", options:["비가 오니까 천천히 운전하십시오.","바닥이 미끄러우니까 조심하십시오.","기계가 뜨거우니까 손대지 마십시오.","전기가 흐르고 있으니까 조심하십시오."]},
+  {id:506, text:"이 표지는 무슨 뜻입니까?", options:["이쪽으로만 출입을 하십시오.","위험하니까 들어오지 마십시오.","여기서 담배를 피우지 마십시오.","위험하니까 천천히 운전하십시오."]},
+  {id:507, text:"이 표지는 무슨 뜻입니까?", options:["여기에서 사진을 찍지 마십시오.","여기에 쓰레기를 버리지 마십시오.","여기에서 담배를 피우지 마십시오.","여기에서 휴대전화를 쓰지 마십시오."]}
+];
+
+/*
+  ANSWERS ARRAY (placeholders)
+  Replace zeros with the correct option numbers 1..4 for auto-grading.
+  Example: const answers = [4,3,2,1, ...] length must be 40.
+*/
+const answers = [
+  0,0,0,0,0,
+  0,0,0,0,0,
+  0,0,0,0,0,
+  0,0,0,0,0,
+  0,0,0,0,0,
+  0,0,0,0,0,
+  0,0,0,0,0,
+  0,0,0,0
+];
+
+// --- end of editable answers array ---
+
+// render questions
+const qContainer = document.getElementById('questionsContainer');
+questions.forEach((q, idx) => {
+  const div = document.createElement('div');
+  div.className = 'q';
+  div.innerHTML = `
+    <h3>Q${idx+1}. <small class="small">(${q.id})</small> ${escapeHtml(q.text)}</h3>
+    <div class="opts">
+      ${q.options.map((o,i)=>`<label><input type="radio" name="q${idx}" value="${i+1}"> ${escapeHtml(o)}</label>`).join('')}
+    </div>
+  `;
+  qContainer.appendChild(div);
+});
+
+document.getElementById('submitBtn').addEventListener('click', onSubmit);
+document.getElementById('clearBtn').addEventListener('click', () => {
+  document.getElementById('testForm').reset();
+  document.getElementById('resultArea').style.display='none';
+});
+
+function onSubmit(){
+  const totalMarks = questions.length * 5;
+  let score = 0;
+  let gradedQuestions = 0;
+  let details = [];
+  for(let i=0;i<questions.length;i++){
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    const selVal = sel ? Number(sel.value) : 0;
+    const correct = answers[i] || 0;
+    const isKnown = correct >=1 && correct <=4;
+    const isCorrect = isKnown && selVal === correct;
+    if(isKnown){
+      gradedQuestions++;
+      if(isCorrect) score += 5;
+    }
+    details.push({qIndex:i+1, questionId:questions[i].id, selected:selVal, correct: correct, isKnown,isCorrect});
+  }
+
+  // Build result display
+  const res = document.getElementById('resultArea');
+  res.style.display='block';
+  let html = `<h3>Result</h3>`;
+  html += `<p><strong>Marked questions:</strong> ${gradedQuestions}/${questions.length} (${gradedQuestions*5} possible marks)</p>`;
+  html += `<p><strong>Score:</strong> ${score} / ${gradedQuestions*5} (Total test marks = ${totalMarks})</p>`;
+
+  // Grade only if at least one correct known answer exists; otherwise explain
+  if(gradedQuestions === questions.length){
+    html += `<p><strong>Final Grade:</strong> ${gradeFromScore(score)}</p>`;
+    html += `<p><strong>Pass/Fail:</strong> ${score >= 110 ? '<span style="color:green">Pass</span>' : '<span style="color:red">Fail</span>'}</p>`;
+  } else {
+    html += `<p class="small">Note: Full auto-grading requires all correct answers to be set in the <code>answers</code> array (see file comments). Currently ${questions.length-gradedQuestions} answers are missing from the key, so only ${gradedQuestions} questions were auto-graded.</p>`;
+    html += `<p class="small">If you want a full grade, either edit the <code>answers</code> array in the file or send the correct option numbers (40 numbers) to the author to update.</p>`;
+  }
+
+  // show per-question feedback (selected vs correct if known)
+  html += `<details><summary>Per-question review</summary><ol>`;
+  details.forEach(d=>{
+    const q = questions[d.qIndex-1];
+    const selText = d.selected ? q.options[d.selected-1] : "<em>No answer</em>";
+    const correctText = d.correct ? q.options[d.correct-1] : "<em>Key not set</em>";
+    const mark = d.isKnown ? (d.isCorrect ? "✓" : "✗") : "—";
+    html += `<li><strong>Q${d.qIndex} (id ${d.questionId}):</strong> Selected: ${escapeHtml(selText)} | Correct: ${escapeHtml(correctText)} | ${mark}</li>`;
+  });
+  html += `</ol></details>`;
+
+  // include instruction to set key
+  html += `<div class="note">Tip: To enable full auto-grading, open the HTML and set <code>const answers = [ ... ]</code> with 40 numbers (1-4). Ask me and I will update the file for you.</div>`;
+
+  res.innerHTML = html;
+  // scroll to result
+  res.scrollIntoView({behavior:'smooth'});
+}
+
+function gradeFromScore(s){
+  if(s>=180) return 'A+';
+  if(s>=160) return 'A';
+  if(s>=140) return 'B';
+  if(s>=110) return 'C';
+  return 'Fail';
+}
+
+function escapeHtml(s){
+  if(!s) return '';
+  return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Payment</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:linear-gradient(135deg,#74ebd5,#ACB6E5);display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+    .container{background:#fff;border-radius:12px;padding:24px;width:420px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,0.15)}
+    input{padding:10px;width:80%;border-radius:6px;border:1px solid #ccc;outline:none}
+    button{background:#4CAF50;color:#fff;border:none;padding:10px 18px;border-radius:8px;cursor:pointer}
+    #msg{color:#e74c3c;margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>Result Locked 🔒</h3>
+    <p>Pay PKR <b>200</b> to view your result.</p>
+    <p><b>JazzCash / Easypaisa:</b> 03XXXXXXXXX (Bilal Ahmad)</p>
+
+    <div id="waitingForScore">
+      <p><em>Waiting for score from test page...</em></p>
+    </div>
+
+    <div id="scorePreview" style="display:none">
+      <p><strong>Score received:</strong></p>
+      <div id="scoreArea">—</div>
+    </div>
+
+    <input id="txid" placeholder="Enter Transaction ID"><br><br>
+    <button id="verifyBtn">Verify Payment & Show Result</button>
+    <div id="msg"></div>
+
+    <div id="finalResult" style="display:none;margin-top:15px">
+      <h3>🎉 Your Result</h3>
+      <div id="finalScore"></div>
+      <div id="finalGrade"></div>
+    </div>
+  </div>
+
+<script>
+let receivedScore = null; // will hold the trusted score object
+
+// Listen for postMessage from newest.html
+window.addEventListener('message', (ev) => {
+  // Security: accept only messages from same origin
+  if(ev.origin !== window.location.origin) {
+    console.warn('Ignored message from origin', ev.origin);
+    return;
+  }
+  const data = ev.data;
+  // Basic sanity check
+  if(data && data.from === 'newest.html' && typeof data.score === 'number') {
+    receivedScore = { score: data.score, total: data.total || 100, grade: data.grade || '' };
+    document.getElementById('waitingForScore').style.display = 'none';
+    document.getElementById('scorePreview').style.display = 'block';
+    document.getElementById('scoreArea').innerText = `${receivedScore.score} / ${receivedScore.total}`;
+    document.getElementById('msg').innerText = '';
+  }
+});
+
+// Verify button — demo check for txid, then show the real server-sent score
+document.getElementById('verifyBtn').onclick = () => {
+  const tx = document.getElementById('txid').value.trim();
+  if(!tx){
+    document.getElementById('msg').innerText = '⚠️ Transaction ID enter karein';
+    return;
+  }
+  if(!receivedScore){
+    document.getElementById('msg').innerText = '⚠️ Score not received yet from test page. Please use Submit on test page first.';
+    return;
+  }
+
+  // Demo rule: accept txid length>5 (replace with real server verification if you add backend)
+  if(tx.length <= 5){
+    document.getElementById('msg').innerText = '❌ Invalid Transaction ID';
+    return;
+  }
+
+  // Payment accepted — show final trusted result
+  document.getElementById('msg').innerText = '✅ Payment verified. Showing result...';
+  document.getElementById('finalResult').style.display = 'block';
+  document.getElementById('finalScore').innerText = 'Score: ' + receivedScore.score + ' / ' + receivedScore.total;
+  document.getElementById('finalGrade').innerText = 'Grade: ' + (receivedScore.grade || calculateGrade(receivedScore.score, receivedScore.total));
+};
+
+// optional helper if grade not supplied
+function calculateGrade(score, total){
+  const pct = (score/total)*100;
+  if(pct >= 85) return 'A+';
+  if(pct >= 70) return 'A';
+  if(pct >= 50) return 'B';
+  return 'C';
+}
+</script>
+</body>
+</html>
